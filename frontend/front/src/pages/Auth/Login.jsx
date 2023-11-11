@@ -1,7 +1,8 @@
 import { Card, Flex, Input, Button, Space, Typography, Switch } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MoonIcon from '../../components/icons/MoonIcon';
 import SunIcon from '../../components/icons/SunIcon';
+import { Link } from 'react-router-dom';
 import usersData from '../people.json';
 
 const boxStyle = {
@@ -38,7 +39,13 @@ const fakeAuthentication = async (email, password) => {
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [theme, setTheme] = useState('light'); // Default theme is light
+  const [theme, setTheme] = useState('light');
+  const [registeredUsers, setRegisteredUsers] = useState([]);
+
+  useEffect(() => {
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    setRegisteredUsers(storedUsers);
+  }, []); // Run only once on component mount
 
   const handleLogin = async () => {
     try {
@@ -55,7 +62,7 @@ const Login = () => {
 
   return (
     <Flex style={{ ...boxStyle, ...(theme === 'dark' ? darkTheme : lightTheme) }} align="center" justify="center">
-      <Card title="Login" bordered={false} style={{ width: 500 }}>
+      <Card title="Login" bordered={false} style={{ width: 700 }}>
         <Space size="small" direction="vertical" style={{ width: '100%' }}>
           <Input
             type="email"
@@ -81,6 +88,9 @@ const Login = () => {
             <Switch checked={theme === 'dark'} onChange={toggleTheme} />
             <MoonIcon />
             <Typography.Link>Forgot Password?</Typography.Link>
+            <Link to="/register">
+              <Button type="default">No Account? Register!</Button>
+            </Link>
           </Flex>
         </Space>
       </Card>

@@ -1,6 +1,6 @@
 import { Card, Flex, Input, Button, Space } from 'antd';
 import React, { useState } from 'react';
-import usersData from '../people.json'; // Import the JSON file
+import { Link } from 'react-router-dom';
 
 const boxStyle = {
   width: '100%',
@@ -9,23 +9,24 @@ const boxStyle = {
   backgroundSize: 'cover',
 };
 
-const isUserRegistered = (email) => {
-  return usersData.users.some((user) => user.email === email);
-};
-
-const registerUser = (userData) => {
-  usersData.users.push(userData);
-  // Save the updated user data back to the JSON file or your backend/database
-  // For simplicity, in this example, we are not saving it back to the file.
-  console.log('User registered:', userData);
-};
-
 const Registration = () => {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  const isUserRegistered = (email) => {
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    return storedUsers.some((user) => user.email === email);
+  };
+
+  const registerUser = (userData) => {
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    const updatedUsers = [...storedUsers, userData];
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    console.log('User registered:', userData);
+  };
 
   const handleRegister = () => {
     if (isUserRegistered(email)) {
@@ -39,7 +40,7 @@ const Registration = () => {
           surname,
           email,
           password,
-          role: 'user', // You can set a default role for registered users
+          role: 'user',
         };
         registerUser(userData);
       }
@@ -64,6 +65,10 @@ const Registration = () => {
             <Button type="primary" onClick={handleRegister}>
               Register
             </Button>
+            {password !== confirmPassword && <p style={{ color: 'red' }}>Passwords do not match.</p>}
+            <Link to="/">
+              <Button type="default">Back to Login</Button>
+            </Link>
           </Flex>
         </Space>
       </Card>

@@ -1,6 +1,8 @@
-import { Card, Flex, Input, Button, Space } from 'antd';
+import { Card, Flex, Input, Button, Space, Switch } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import MoonIcon from '../../components/icons/MoonIcon';
+import SunIcon from '../../components/icons/SunIcon';
 
 const boxStyle = {
   width: '100%',

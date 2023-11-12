@@ -1,11 +1,15 @@
 {
     "users": [
       {
+        "Name": "John",
+        "Surname": "Doe",
         "email": "user@example.com",
         "password": "userpassword",
         "role": "user"
       },
       {
+        "Name": "Administrator",
+        "Surname": "Administ",
         "email": "admin@example.com",
         "password": "adminpassword",
         "role": "admin"
